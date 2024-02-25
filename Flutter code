@@ -1,0 +1,250 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ar', ''), // Arabic
+      ],
+      locale: const Locale('ar', ''), // Force the app to use Arabic
+      home: RiskScoreForm(),
+    );
+  }
+}
+
+class RiskScoreForm extends StatefulWidget {
+  @override
+  _RiskScoreFormState createState() => _RiskScoreFormState();
+}
+
+class _RiskScoreFormState extends State<RiskScoreForm> {
+  int _totalScore = 0;
+
+  // Variables to store user selections
+  int _ageScore = 0;
+  int _smokingScore = 0;
+  int _bmiScore = 0;
+  int _exerciseScore = 0;
+  int _alcoholScore = 0;
+  int _conditionsScore = 0;
+  int _familyHistoryScore = 0;
+  int _bloodPressureScore = 0;
+  int _cholesterolScore = 0;
+  int _stressScore = 0;
+
+  // Function to update total score
+  void _updateTotalScore() {
+    setState(() {
+      _totalScore = _ageScore + _smokingScore + _bmiScore + _exerciseScore + _alcoholScore + _conditionsScore + _familyHistoryScore + _bloodPressureScore + _cholesterolScore + _stressScore;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('خوارزمية مخاطر التأمين الصحي'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // Example for Age
+            ListTile(
+              title: Text('العمر'),
+              trailing: DropdownButton<int>(
+                value: _ageScore,
+                onChanged: (newValue) {
+                  setState(() {
+                    _ageScore = newValue!;
+                    _updateTotalScore();
+                  });
+                },
+                items: <DropdownMenuItem<int>>[
+                  DropdownMenuItem(value: 0, child: Text('18-25 سنة')),
+                  DropdownMenuItem(value: 1, child: Text('26-35 سنة')),
+                  DropdownMenuItem(value: 2, child: Text('36-45 سنة')),
+                  DropdownMenuItem(value: 3, child: Text('46-55 سنة')),
+                  DropdownMenuItem(value: 4, child: Text('56-65 سنة')),
+                  DropdownMenuItem(value: 5, child: Text('66+ سنة')),
+                ],
+              ),
+            ),
+            // For Smoking Status
+ListTile(
+  title: Text('حالة التدخين'),
+  trailing: DropdownButton<int>(
+    value: _smokingScore,
+    onChanged: (newValue) {
+      setState(() {
+        _smokingScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('لم يسبق له التدخين')),
+      DropdownMenuItem(value: 5, child: Text('مدخن حالي')),
+    ],
+  ),
+),
+
+// For BMI (Body Mass Index)
+ListTile(
+  title: Text('مؤشر كتلة الجسم'),
+  trailing: DropdownButton<int>(
+    value: _bmiScore,
+    onChanged: (newValue) {
+      setState(() {
+        _bmiScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('18.5-24.9 (طبيعي)')),
+      DropdownMenuItem(value: 1, child: Text('25-29.9 (زيادة الوزن)')),
+      DropdownMenuItem(value: 2, child: Text('30-34.9 (سمنة الدرجة الأولى)')),
+      DropdownMenuItem(value: 3, child: Text('35-39.9 (سمنة الدرجة الثانية)')),
+      DropdownMenuItem(value: 5, child: Text('40+ (سمنة الدرجة الثالثة)')),
+    ],
+  ),
+),
+
+// For Exercise Frequency
+ListTile(
+  title: Text('تواتر التمارين الرياضية'),
+  trailing: DropdownButton<int>(
+    value: _exerciseScore,
+    onChanged: (newValue) {
+      setState(() {
+        _exerciseScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('5 أيام أو أكثر في الأسبوع')),
+      DropdownMenuItem(value: 1, child: Text('3-4 أيام في الأسبوع')),
+      DropdownMenuItem(value: 2, child: Text('1-2 أيام في الأسبوع')),
+      DropdownMenuItem(value: 5, child: Text('لا يمارس بانتظام')),
+    ],
+  ),
+),
+
+
+// For Pre-existing Conditions
+ListTile(
+  title: Text('الحالات الصحية الموجودة مسبقا'),
+  trailing: DropdownButton<int>(
+    value: _conditionsScore,
+    onChanged: (newValue) {
+      setState(() {
+        _conditionsScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('لا يوجد')),
+      DropdownMenuItem(value: 2, child: Text('حالة واحدة')),
+      DropdownMenuItem(value: 4, child: Text('حالتان')),
+      DropdownMenuItem(value: 5, child: Text('ثلاث حالات أو أكثر')),
+    ],
+  ),
+),
+
+// For Family History of Chronic Diseases
+ListTile(
+  title: Text('تاريخ العائلة للأمراض المزمنة'),
+  trailing: DropdownButton<int>(
+    value: _familyHistoryScore,
+    onChanged: (newValue) {
+      setState(() {
+        _familyHistoryScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('لا يوجد تاريخ')),
+      DropdownMenuItem(value: 3, child: Text('تاريخ في العائلة الممتدة')),
+      DropdownMenuItem(value: 5, child: Text('تاريخ في العائلة الفورية')),
+    ],
+  ),
+),
+
+// For Blood Pressure
+ListTile(
+  title: Text('ضغط الدم'),
+  trailing: DropdownButton<int>(
+    value: _bloodPressureScore,
+    onChanged: (newValue) {
+      setState(() {
+        _bloodPressureScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('طبيعي (<120/80 mmHg)')),
+      DropdownMenuItem(value: 2, child: Text('مرتفع (120-129/<80 mmHg)')),
+      DropdownMenuItem(value: 3, child: Text('مرتفع المرحلة 1 (130-139/80-89 mmHg)')),
+      DropdownMenuItem(value: 5, child: Text('مرتفع المرحلة 2 (140+/90+ mmHg)')),
+    ],
+  ),
+),
+
+// For Cholesterol Levels
+ListTile(
+  title: Text('مستويات الكوليسترول'),
+  trailing: DropdownButton<int>(
+    value: _cholesterolScore,
+    onChanged: (newValue) {
+      setState(() {
+        _cholesterolScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('مرغوب فيه (LDL <100 mg/dL)')),
+      DropdownMenuItem(value: 2, child: Text('مرتفع قليلا (LDL 130-159 mg/dL)')),
+      DropdownMenuItem(value: 5, child: Text('مرتفع (LDL 160+ mg/dL)')),
+    ],
+  ),
+),
+
+// For Stress Level
+ListTile(
+  title: Text('مستوى الضغط النفسي'),
+  trailing: DropdownButton<int>(
+    value: _stressScore,
+    onChanged: (newValue) {
+      setState(() {
+        _stressScore = newValue!;
+        _updateTotalScore();
+      });
+    },
+    items: <DropdownMenuItem<int>>[
+      DropdownMenuItem(value: 0, child: Text('ضغط منخفض')),
+      DropdownMenuItem(value: 2, child: Text('ضغط متوسط')),
+      DropdownMenuItem(value: 5, child: Text('ضغط عالي')),
+    ],
+  ),
+),
+
+
+            ListTile(
+              title: Text('الدرجة الإجمالية: $_totalScore'),
+            ),
+            ElevatedButton(
+              onPressed: _updateTotalScore,
+              child: Text('احسب'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
